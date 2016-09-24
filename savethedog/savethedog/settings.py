@@ -20,6 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+
+################# NOTE #################
+#this is the test secret key, you can steal it :P
+
 SECRET_KEY = '52@(3&3c(4y4yf34sf*_l@)%fufuzqp*_#i6ort6v2$sy^1ti$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -37,6 +41,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corso',
+    'rottweiler',
+    'savethedog',
+    'rest_framework',
+    'rest_framework.authtoken',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -76,8 +85,12 @@ WSGI_APPLICATION = 'savethedog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'savethedog',
+        'USER': 'savethedog',
+        'PASSWORD': 'savethedog',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -100,3 +113,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
