@@ -1,8 +1,8 @@
-from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
-from api import app
+import binascii
+import os
+from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 
 class User(db.Model):
@@ -14,8 +14,28 @@ class User(db.Model):
     email = db.Column("email", db.String)
 
 
-class Tokens(db.Model):
-    __tablename__ = "authtoken_data"
+class Token(db.Model):
+    __tablename__ = "authtoken_token"
     key = db.Column("key", db.String, primary_key=True)
     created = db.Column("created", db.TIMESTAMP)
     user_id = db.Column("user_id", db.Integer, db.ForeignKey('auth_user.id'))
+
+    def __init__(self, key, created, user_id):
+        self.key = key
+        self.created = created
+        self.user_id = user_id
+
+    @staticmethod
+    def generate_token(user_id):
+
+        from datetime import datetime
+        new_hash = binascii.hexlify(os.urandom(20)).decode()
+
+        if Token.query.filter_by(user_id=user_id).first():
+            Token.query.filter_by(user_id=user_id).update(dict(key=new_hash, created=datetime.now()))
+        else:
+            token = Token(key=new_hash, created=datetime.now(), user_id=user_id)
+            db.session.add(token)
+
+        db.session.commit()
+        return new_hash

@@ -3,7 +3,6 @@ from utils.database.models import User
 
 
 class HashedPasswordAuthenticator(Authenticator):
-
     def authenticate(self, auth_data):
 
         if not isinstance(auth_data, dict):
@@ -11,13 +10,18 @@ class HashedPasswordAuthenticator(Authenticator):
 
         username = auth_data['username']
         passowrd = auth_data['password']
+
         try:
             user = User.query.filter_by(username=username).first()
-        except:
-            return False
+        except Exception as ex:
+            print ex
+            return None
 
-        return self.get_hashed_password(passowrd, user.password)
+        if self.verify_hashed_password(passowrd, user.password):
+            return user
 
-    def get_hashed_password(self, raw_password, hash):
+        return None
+
+    def verify_hashed_password(self, raw_password, hash):
         from passlib.hash import django_pbkdf2_sha256 as hasher
         return hasher.verify(raw_password, hash)
