@@ -4,8 +4,8 @@ from utils.interfaces.authenticator import Authenticator
 from utils.database.models import Token, User
 from datetime import datetime
 
-class TokenAuthenticator(Authenticator):
 
+class TokenAuthenticator(Authenticator):
     def authenticate(self, auth_data):
         try:
             token_string = auth_data["token"]
@@ -27,10 +27,3 @@ class TokenAuthenticator(Authenticator):
         import psycopg2
         return datetime.utcnow().replace(
             tzinfo=psycopg2.tz.FixedOffsetTimezone(offset=0, name=None))
-
-
-
-
-
-
-

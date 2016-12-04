@@ -36,10 +36,12 @@ class SocialNetwork(models.Model):
 
 class Announce(models.Model):
 
-    location = models.CharField(max_length=50)
     is_active = models.BooleanField(default=True)
     description = models.TextField()
     date_creation = models.DateTimeField(auto_now_add=True)
+    date_found = models.DateTimeField(null=True)
+    latitude = models.FloatField(null=True)
+    longitude = models.FloatField(null=True)
     #todo create user folder for announce pictures
 
 

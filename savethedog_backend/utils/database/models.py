@@ -14,6 +14,17 @@ class User(db.Model):
     email = db.Column("email", db.String)
 
 
+class Announce(db.Model):
+    __tablename__ = "rottweiler_announce"
+    id = db.Column("id", db.Integer, primary_key=True)
+    is_active = db.Column("is_active", db.BOOLEAN)
+    description = db.Column("description", db.String)
+    date_creation = db.Column("date_creation", db.DATETIME)
+    date_found = db.Column("date_found", db.DATETIME)
+    latitude = db.Column("latitude", db.Float)
+    longitude = db.Column("longitude", db.Float)
+
+
 class Token(db.Model):
     __tablename__ = "authtoken_token"
     key = db.Column("key", db.String, primary_key=True)
