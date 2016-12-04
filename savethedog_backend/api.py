@@ -17,7 +17,7 @@ db.init_app(app)
 api.add_resource(TokenResource, "/api/login/",
                  resource_class_kwargs=dict(authenticator=HashedPasswordAuthenticator()))
 
-api.add_resource(NearLocationResource, "/api/location/<string:token>/<float:lat>/<float:long>",
+api.add_resource(NearLocationResource, "/api/location/<string:token>/",
                  resource_class_kwargs=dict(authenticator=TokenAuthenticator(),
                                             mongo=MongoLandmark()))
 

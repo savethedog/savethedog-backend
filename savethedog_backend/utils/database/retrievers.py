@@ -10,5 +10,5 @@ class MongoObjectsRetriever:
         self.db = db
 
     def get_announces(self, mongo_list):
-        ids_list = list(map(lambda x: int(x['id']), mongo_list))
+        ids_list = list(map(lambda x: int(x['announce']), mongo_list))
         return Announce.query.filter(Announce.id.in_(ids_list)).all()
