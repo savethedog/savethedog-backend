@@ -8,6 +8,7 @@ class MongoObjectsMaker:
                 'coordinates': [lat, long]
             }
         }
+
     @staticmethod
     def make_nearby_query(latitude, longitude, radius):
         from math import radians

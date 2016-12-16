@@ -16,13 +16,29 @@ class User(db.Model):
 
 class Announce(db.Model):
     __tablename__ = "rottweiler_announce"
-    id = db.Column("id", db.Integer, primary_key=True)
+    id = db.Column("id", db.Integer, primary_key=True, autoincrement=True)
     is_active = db.Column("is_active", db.BOOLEAN)
     description = db.Column("description", db.String)
     date_creation = db.Column("date_creation", db.DATETIME)
-    date_found = db.Column("date_found", db.DATETIME)
+    date_found = db.Column("date_found", db.DATETIME, nullable=True)
     latitude = db.Column("latitude", db.Float)
     longitude = db.Column("longitude", db.Float)
+
+    @staticmethod
+    def create_new_announce(description, latitude, longitude, date_creation,
+                            date_found=None, is_active=True):
+        try:
+            new_announce = Announce(description=description, latitude=latitude,
+                                    longitude=longitude, date_creation=date_creation,
+                                    date_found=date_found, is_active=is_active)
+            db.session.add(new_announce)
+            db.session.commit()
+            return new_announce
+        except Exception as ex:
+            print ex.message
+
+        return None
+
 
 
 class Token(db.Model):
